@@ -1,0 +1,17 @@
+{
+  "pkg": "themes",
+  "dest": "./themes/",
+  "fmt": true,
+  "output": "filebox.go",
+  "noprefix": true,
+  "custom": [
+    {
+      "files": ["./themes/"],
+      "base": "themes/",
+      "prefix": "",
+      "exclude": [
+        "themes.go"
+      ]
+    }
+  ]
+}

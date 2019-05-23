@@ -1,0 +1,59 @@
+{{- /*gotype: go.atrox.dev/kuvert.Email*/ -}}
+<h2>{{if .Title }}{{ .Title }}{{ else }}{{ .Greeting }} {{ .Name }},{{ end }}</h2>
+
+{{ with .Intros }}
+    {{ range $line := . }}
+        <p>{{ $line }}</p>
+    {{ end }}
+{{ end }}
+
+{{ with .Dictionary }}
+    <ul>
+        {{ range $entry := . }}
+            <li>{{ $entry.Key }}: {{ $entry.Value }}</li>
+        {{ end }}
+    </ul>
+{{ end }}
+
+{{ with .Table }}
+    {{ $data := .Data }}
+    {{ $columns := .Columns }}
+    {{ if gt (len $data) 0 }}
+        <table class="data-table" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                {{ $col := index $data 0 }}
+                {{ range $entry := $col }}
+                    <th>{{ $entry.Key }} </th>
+                {{ end }}
+            </tr>
+            {{ range $row := $data }}
+                <tr>
+                    {{ range $cell := $row }}
+                        <td>
+                            {{ $cell.Value }}
+                        </td>
+                    {{ end }}
+                </tr>
+            {{ end }}
+        </table>
+    {{ end }}
+{{ end }}
+
+{{ with .Actions }}
+    {{ range $action := . }}
+        <p>{{ $action.Instructions }} {{ $action.Button.Link }}</p>
+    {{ end }}
+{{ end }}
+
+{{ with .Outros }}
+    {{ range $line := . }}
+        <p>{{ $line }}</p>
+    {{ end }}
+{{ end }}
+
+<p>
+    {{ .Signature }},<br>
+    {{ .Kuvert.Product.Name }} - {{ .Kuvert.Product.Link }}
+</p>
+
+<p>{{ .Kuvert.Product.Copyright }}</p>
