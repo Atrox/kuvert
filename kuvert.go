@@ -57,14 +57,7 @@ func Instance() *Kuvert {
 }
 
 func Init(product *Product) {
-	if product.Copyright == "" {
-		product.Copyright = fmt.Sprintf("Copyright © 2019 %s. All rights reserved.", product.Name)
-	}
-	if product.TroubleText == "" {
-		product.TroubleText = "If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser."
-	}
-
-	instance.Product = product
+	instance = New(product)
 }
 
 func SetProduct(product *Product) {
@@ -76,11 +69,8 @@ func SetTheme(theme themes.Theme) {
 }
 
 func NewEmail() *Email {
-	if instance.Theme == nil {
-		instance.Theme = themes.Default()
-	}
-	if instance.Product == nil {
-		instance.Product = &Product{}
+	if instance == nil {
+		instance = New(&Product{})
 	}
 
 	return instance.NewEmail()
