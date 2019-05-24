@@ -4,6 +4,8 @@ package kuvert
 
 import (
 	"fmt"
+	"strconv"
+	"time"
 
 	"go.atrox.dev/kuvert/themes"
 )
@@ -28,7 +30,7 @@ type Product struct {
 
 func New(product *Product) *Kuvert {
 	if product.Copyright == "" {
-		product.Copyright = fmt.Sprintf("Copyright © 2019 %s. All rights reserved.", product.Name)
+		product.Copyright = fmt.Sprintf("Copyright © %s %s. All rights reserved.", strconv.Itoa(time.Now().Year()), product.Name)
 	}
 	if product.TroubleText == "" {
 		product.TroubleText = "If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser."
