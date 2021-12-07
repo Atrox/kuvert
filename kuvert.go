@@ -1,7 +1,5 @@
 package kuvert
 
-//go:generate fileb0x filebox.json
-
 import (
 	"fmt"
 	"strconv"

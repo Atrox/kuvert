@@ -1,5 +1,13 @@
 package themes
 
+import _ "embed"
+
+//go:embed default/template.gohtml
+var defaultThemeHtml string
+
+//go:embed default/template.gotext
+var defaultThemeText string
+
 // Theme is an interface to implement when creating a new theme
 type Theme interface {
 	Name() string              // The name of the theme
@@ -19,9 +27,9 @@ func (*defaultTheme) Name() string {
 }
 
 func (*defaultTheme) HTMLTemplate() string {
-	return string(FileDefaultTemplateGohtml)
+	return defaultThemeHtml
 }
 
 func (*defaultTheme) PlainTextTemplate() string {
-	return string(FileDefaultTemplateGotext)
+	return defaultThemeText
 }
