@@ -6,6 +6,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/jaytaylor/html2text"
+	"github.com/vanng822/go-premailer/premailer"
 )
 
 var templateFuncs = template.FuncMap{
@@ -66,14 +67,22 @@ type Button struct {
 	Link      string
 }
 
-// GenerateHTML generates the email body from data to an HTML Reader
-// This is for modern email clients
+// GenerateHTML renders the email as html
 func (e *Email) GenerateHTML() (string, error) {
-	return e.generateTemplate(e.Kuvert.Theme.HTMLTemplate())
+	tmpl, err := e.generateTemplate(e.Kuvert.Theme.HTMLTemplate())
+	if err != nil {
+		return "", err
+	}
+
+	prem, err := premailer.NewPremailerFromString(tmpl, premailer.NewOptions())
+	if err != nil {
+		return "", err
+	}
+
+	return prem.Transform()
 }
 
-// GeneratePlainText generates the email body from data
-// This is for old email clients
+// GeneratePlainText renders the email as plain text
 func (e *Email) GeneratePlainText() (string, error) {
 	tmpl, err := e.generateTemplate(e.Kuvert.Theme.PlainTextTemplate())
 	if err != nil {
@@ -83,8 +92,6 @@ func (e *Email) GeneratePlainText() (string, error) {
 }
 
 func (e *Email) generateTemplate(tmpl string) (string, error) {
-	// Generate the email from Golang template
-	// Allow usage of simple function from sprig : https://github.com/Masterminds/sprig
 	t, err := template.New("kuvert").Funcs(sprig.FuncMap()).Funcs(templateFuncs).Parse(tmpl)
 	if err != nil {
 		return "", err
