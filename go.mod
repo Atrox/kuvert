@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/jaytaylor/html2text v0.0.0-20211105163654-bc68cce691ba
-	github.com/vanng822/go-premailer v1.20.1
+	github.com/vanng822/go-premailer v1.20.2
 )
 
 require (
