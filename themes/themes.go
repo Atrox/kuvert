@@ -1,35 +1,16 @@
 package themes
 
-import _ "embed"
+import (
+	"go.atrox.dev/kuvert/themes/clean"
+)
 
-//go:embed default/template.gohtml
-var defaultThemeHtml string
-
-//go:embed default/template.gotext
-var defaultThemeText string
-
-// Theme is an interface to implement when creating a new theme
-type Theme interface {
-	Name() string              // The name of the theme
-	HTMLTemplate() string      // The golang template for HTML emails
-	PlainTextTemplate() string // The golang template for plain text emails (can be basic HTML)
+// NewDefaultTheme creates a new default theme for kuvert.
+// Default theme is the [clean.Theme] theme.
+func NewDefaultTheme() (*clean.Theme, error) {
+	return NewCleanTheme()
 }
 
-func Default() *defaultTheme {
-	return &defaultTheme{}
-}
-
-// Default is the theme by default
-type defaultTheme struct{}
-
-func (*defaultTheme) Name() string {
-	return "default"
-}
-
-func (*defaultTheme) HTMLTemplate() string {
-	return defaultThemeHtml
-}
-
-func (*defaultTheme) PlainTextTemplate() string {
-	return defaultThemeText
+// NewCleanTheme creates a new clean theme for kuvert.
+func NewCleanTheme() (*clean.Theme, error) {
+	return clean.New()
 }

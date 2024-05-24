@@ -1,4 +1,4 @@
-{{- /*gotype: go.atrox.dev/kuvert.Email*/ -}}
+{{- /*gotype: go.atrox.dev/kuvert/themes/clean.templateContext*/ -}}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -292,7 +292,7 @@
             }
         }
     </style>
-    <title>{{ .Title }}</title>
+    {{ if .Email.Summary }}<title>{{ .Email.Summary }}</title>{{ end }}
 </head>
 <body>
 <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
@@ -302,11 +302,11 @@
                 <!-- Logo -->
                 <tr>
                     <td class="email-masthead">
-                        <a class="email-masthead_name" href="{{ .Kuvert.Product.Link }}" target="_blank">
-                            {{ if .Kuvert.Product.Logo }}
-                                <img src="{{ .Kuvert.Product.Logo | url }}" class="email-logo"/>
+                        <a class="email-masthead_name" href="{{ .Branding.Link }}" target="_blank">
+                            {{ if .Branding.Logo }}
+                                <img src="{{ .Branding.Logo }}" class="email-logo"/>
                             {{ else }}
-                                {{ .Kuvert.Product.Name }}
+                                {{ .Branding.Name }}
                             {{ end }}
                         </a>
                     </td>
@@ -319,9 +319,9 @@
                             <!-- Body content -->
                             <tr>
                                 <td class="content-cell">
-                                    <h1>{{if .Title }}{{ .Title }}{{ else }}{{ .Greeting }} {{ .Name }},{{ end }}</h1>
+                                    <h1>{{ .Email.Title }}</h1>
 
-                                    {{ with .Intros }}
+                                    {{ with .Email.Intros }}
                                         {{ if gt (len .) 0 }}
                                             {{ range $line := . }}
                                                 <p>{{ $line }}</p>
@@ -329,7 +329,7 @@
                                         {{ end }}
                                     {{ end }}
 
-                                    {{ with .Dictionary }}
+                                    {{ with .Email.Dictionary }}
                                         {{ if gt (len .) 0 }}
                                             <dl class="body-dictionary">
                                                 {{ range $entry := . }}
@@ -341,7 +341,7 @@
                                     {{ end }}
 
                                     <!-- Table -->
-                                    {{ with .Table }}
+                                    {{ with .Email.Table }}
                                         {{ $data := .Data }}
                                         {{ $columns := .Columns }}
                                         {{ if gt (len $data) 0 }}
@@ -394,7 +394,7 @@
                                     {{ end }}
 
                                     <!-- Action -->
-                                    {{ with .Actions }}
+                                    {{ with .Email.Actions }}
                                         {{ if gt (len .) 0 }}
                                             {{ range $action := . }}
                                                 <p>{{ $action.Instructions }}</p>
@@ -416,7 +416,7 @@
                                         {{ end }}
                                     {{ end }}
 
-                                    {{ with .Outros }}
+                                    {{ with .Email.Outros }}
                                         {{ if gt (len .) 0 }}
                                             {{ range $line := . }}
                                                 <p>{{ $line }}</p>
@@ -425,18 +425,18 @@
                                     {{ end }}
 
                                     <p>
-                                        {{ .Signature }},
+                                        {{ .Email.Signature }}
                                         <br/>
-                                        {{ .Kuvert.Product.Name }}
+                                        {{ .Branding.Name }}
                                     </p>
 
-                                    {{ with .Actions }}
+                                    {{ with .Email.Actions }}
                                         <table class="body-sub">
                                             <tbody>
                                             {{ range $action := . }}
                                                 <tr>
                                                     <td>
-                                                        <p class="sub">{{ $.Kuvert.Product.TroubleText | replace "{ACTION}" $action.Button.Text }}</p>
+                                                        <p class="sub">{{ $.Branding.TroubleText | replace "{ACTION}" $action.Button.Text }}</p>
                                                         <p class="sub">
                                                             <a href="{{ $action.Button.Link }}">{{ $action.Button.Link }}</a>
                                                         </p>
@@ -457,7 +457,7 @@
                             <tr>
                                 <td class="content-cell">
                                     <p class="sub center">
-                                        {{ .Kuvert.Product.Copyright }}
+                                        {{ .Branding.Copyright }}
                                     </p>
                                 </td>
                             </tr>

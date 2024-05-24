@@ -1,13 +1,15 @@
-{{- /*gotype: go.atrox.dev/kuvert.Email*/ -}}
-<h2>{{if .Title }}{{ .Title }}{{ else }}{{ .Greeting }} {{ .Name }},{{ end }}</h2>
+{{- /*gotype: go.atrox.dev/kuvert/themes/clean.templateContext*/ -}}
+{{ if .Theme.SummaryInPlainText }}<p>{{ .Email.Summary }}</p>{{ end }}
 
-{{ with .Intros }}
+<h2>{{if .Email.Title }}{{ .Email.Title }}{{ else }}{{ .Email.Greeting }} {{ .Email.Name }},{{ end }}</h2>
+
+{{ with .Email.Intros }}
     {{ range $line := . }}
         <p>{{ $line }}</p>
     {{ end }}
 {{ end }}
 
-{{ with .Dictionary }}
+{{ with .Email.Dictionary }}
     <ul>
         {{ range $entry := . }}
             <li>{{ $entry.Key }}: {{ $entry.Value }}</li>
@@ -15,7 +17,7 @@
     </ul>
 {{ end }}
 
-{{ with .Table }}
+{{ with .Email.Table }}
     {{ $data := .Data }}
     {{ $columns := .Columns }}
     {{ if gt (len $data) 0 }}
@@ -39,21 +41,21 @@
     {{ end }}
 {{ end }}
 
-{{ with .Actions }}
+{{ with .Email.Actions }}
     {{ range $action := . }}
         <p>{{ $action.Instructions }} {{ $action.Button.Link }}</p>
     {{ end }}
 {{ end }}
 
-{{ with .Outros }}
+{{ with .Email.Outros }}
     {{ range $line := . }}
         <p>{{ $line }}</p>
     {{ end }}
 {{ end }}
 
 <p>
-    {{ .Signature }},<br>
-    {{ .Kuvert.Product.Name }} - {{ .Kuvert.Product.Link }}
+    {{ .Email.Signature }}<br>
+    {{ .Branding.Name }} - {{ .Branding.Link }}
 </p>
 
-<p>{{ .Kuvert.Product.Copyright }}</p>
+<p>{{ .Branding.Copyright }}</p>

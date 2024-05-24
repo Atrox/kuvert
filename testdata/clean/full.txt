@@ -1,0 +1,30 @@
+-------------------
+Newsletter for you!
+-------------------
+
+Welcome to our newsletter!
+
+Get ready for some exciting news.
+
+* First Name: John
+* Last Name: Doe
+
++---------+--------+
+| PRODUCT | PRICE  |
++---------+--------+
+| Widget  | $19.99 |
+| Gadget  | $29.99 |
++---------+--------+
+
+Click the button below to learn more. https://example.com
+
+Click the button below to unsubscribe. https://example.com/unsubscribe
+
+Thank you for your support!
+
+We hope you enjoy our products.
+
+Best regards
+Test Product - https://example.com
+
+Copyright © 2024 Test Product. All rights reserved.

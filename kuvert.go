@@ -1,3 +1,13 @@
+// Package kuvert is a simple email generator for Go.
+// It is designed to be easy to use and to allow you to quickly generate beautiful emails.
+//
+// Kuvert is designed to be used with a [Theme].
+// A theme is responsible for rendering the email in both HTML and plain text.
+// You can create your own theme or use one of the built-in themes.
+//
+// Kuvert supports your company branding.
+// [Branding] is a struct that contains information about your company product (brand).
+// It appears in the header and footer of the emails.
 package kuvert
 
 import (
@@ -5,20 +15,18 @@ import (
 	"strconv"
 	"time"
 
-	"go.atrox.dev/kuvert/themes"
+	"golang.org/x/sync/errgroup"
 )
 
-var instance *Kuvert
-
-// Kuvert is an instance of the kuvert email generator
+// Kuvert is an instance of the kuvert email generator.
 type Kuvert struct {
-	Theme   themes.Theme
-	Product *Product
+	Theme    Theme
+	Branding *Branding
 }
 
-// Product represents your company product (brand)
-// Appears in header & footer of e-mails
-type Product struct {
+// Branding represents your company product (brand).
+// Appears in header & footer of e-mails.
+type Branding struct {
 	Name        string
 	Link        string
 	Logo        string
@@ -26,52 +34,61 @@ type Product struct {
 	TroubleText string
 }
 
-func New(product *Product) *Kuvert {
-	if product.Copyright == "" {
-		product.Copyright = fmt.Sprintf("Copyright © %s %s. All rights reserved.", strconv.Itoa(time.Now().Year()), product.Name)
+// New creates a new [Kuvert] instance.
+func New(theme Theme, branding Branding) *Kuvert {
+	if branding.Copyright == "" {
+		branding.Copyright = fmt.Sprintf(
+			"Copyright © %s %s. All rights reserved.",
+			strconv.Itoa(time.Now().Year()), branding.Name,
+		)
 	}
-	if product.TroubleText == "" {
-		product.TroubleText = "If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser."
+	if branding.TroubleText == "" {
+		branding.TroubleText = "If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser."
 	}
 
 	return &Kuvert{
-		Theme:   themes.Default(),
-		Product: product,
+		Theme:    theme,
+		Branding: &branding,
 	}
 }
 
-func (k *Kuvert) NewEmail() *Email {
-	return &Email{
-		Kuvert: k,
-
-		Intros:     []string{},
-		Dictionary: []Entry{},
-		Outros:     []string{},
-		Signature:  "Yours truly",
-		Greeting:   "Hi",
-	}
+// RenderedEmail contains the rendered HTML and plain text of an email.
+type RenderedEmail struct {
+	HTML      string
+	PlainText string
 }
 
-func Instance() *Kuvert {
-	return instance
-}
-
-func Init(product *Product) {
-	instance = New(product)
-}
-
-func SetProduct(product *Product) {
-	instance.Product = product
-}
-
-func SetTheme(theme themes.Theme) {
-	instance.Theme = theme
-}
-
-func NewEmail() *Email {
-	if instance == nil {
-		instance = New(&Product{})
+// Render renders the email in both HTML and plain text format.
+func (k *Kuvert) Render(email Email) (*RenderedEmail, error) {
+	renderedEmail := &RenderedEmail{}
+	wg := &errgroup.Group{}
+	wg.Go(func() error {
+		var err error
+		renderedEmail.HTML, err = k.RenderHTML(email)
+		return err
+	})
+	wg.Go(func() error {
+		var err error
+		renderedEmail.PlainText, err = k.RenderPlainText(email)
+		return err
+	})
+	if err := wg.Wait(); err != nil {
+		return nil, err
 	}
 
-	return instance.NewEmail()
+	return renderedEmail, nil
+}
+
+// RenderHTML renders the email in HTML format.
+func (k *Kuvert) RenderHTML(email Email) (string, error) {
+	email.fillDefaults()
+
+	return k.Theme.HTML(k, &email)
+}
+
+// RenderPlainText renders the email in plain text format.
+func (k *Kuvert) RenderPlainText(email Email) (string, error) {
+	email.fillDefaults()
+
+	return k.Theme.PlainText(k, &email)
 }
