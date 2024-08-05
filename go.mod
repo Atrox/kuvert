@@ -6,7 +6,7 @@ require (
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056
 	github.com/stretchr/testify v1.9.0
 	github.com/vanng822/go-premailer v1.21.0
-	golang.org/x/sync v0.7.0
+	golang.org/x/sync v0.8.0
 )
 
 require (
