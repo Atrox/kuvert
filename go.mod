@@ -5,8 +5,8 @@ go 1.22
 require (
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056
 	github.com/stretchr/testify v1.9.0
-	github.com/vanng822/go-premailer v1.21.0
-	golang.org/x/sync v0.7.0
+	github.com/vanng822/go-premailer v1.22.0
+	golang.org/x/sync v0.8.0
 )
 
 require (
@@ -20,6 +20,6 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/vanng822/css v1.0.1 // indirect
-	golang.org/x/net v0.25.0 // indirect
+	golang.org/x/net v0.29.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
