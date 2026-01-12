@@ -4,7 +4,7 @@ go 1.24.3
 
 require (
 	github.com/inbucket/html2text v1.0.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.11.1
 	github.com/vanng822/go-premailer v1.21.0
 	golang.org/x/sync v0.19.0
 )
