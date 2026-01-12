@@ -33,8 +33,8 @@ type Theme struct {
 
 func New() (*Theme, error) {
 	templateFuncs := template.FuncMap{
-		"replace": func(old, new, src string) string {
-			return strings.ReplaceAll(src, old, new)
+		"replace": func(old, newStr, src string) string {
+			return strings.ReplaceAll(src, old, newStr)
 		},
 	}
 
