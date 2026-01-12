@@ -5,12 +5,12 @@ Hey,
 +-------+-----+
 | NAME  | AGE |
 +-------+-----+
-| John  |  30 |
-| Jane  |  25 |
-| Alice |  35 |
+| John  | 30  |
+| Jane  | 25  |
+| Alice | 35  |
 +-------+-----+
 
 Yours truly,
 Test Product - https://example.com
 
-Copyright © 2024 Test Product. All rights reserved.
+Copyright © 2026 Test Product. All rights reserved.

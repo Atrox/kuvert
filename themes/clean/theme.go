@@ -7,7 +7,7 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/jaytaylor/html2text"
+	"github.com/inbucket/html2text"
 	"github.com/vanng822/go-premailer/premailer"
 	"go.atrox.dev/kuvert"
 )
